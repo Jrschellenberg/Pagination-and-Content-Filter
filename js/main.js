@@ -7,15 +7,13 @@
 //Making sure all dom elements loaded b4 working on them.
 jQuery(function ($) {
     var $pageParts = $(".student-item");
-    console.log($pageParts);
-
-
-
+    /*
+    Function is used to set up the pagination plugin, hooking it all up together
+    pageParts: the jquery object containing all of the items we wish to paginate.
+     */
     var paginate = function(pageParts){
-        console.log(pageParts);
-        var itemsPerPage = 10;
         //Setting variable of how many items we require per page
-
+        var itemsPerPage = 10;
         //Making variable of how many items we have.
         var numPages = pageParts.length;
         if(pageParts.length == 0){
@@ -25,16 +23,11 @@ jQuery(function ($) {
         else {
             $('#noSearchResults').hide();
         }
-
-
-
         //Hiding rest of items except first 10.
         pageParts.slice(itemsPerPage).hide();
         var numberOfPaginations = parseInt(numPages / itemsPerPage + 1);
-        console.log(numberOfPaginations + " is number of pagination");
 
-
-        $(".paginationHolder").pagination({
+        $(".pagination").pagination({
             items: numPages,
             itemsOnPage: itemsPerPage,
             cssStyle: 'light-theme',
@@ -49,6 +42,7 @@ jQuery(function ($) {
                 pageParts.hide().slice(start, end).show();
             }
         });
+
         /*
          This function Adds functionality to allow the traversing of the pagnination using the browsers forward/back functionality
          Code was Implemented using
@@ -65,8 +59,6 @@ jQuery(function ($) {
             // )            end the matching group
             // $            we should now be at the end of the string - if not, then don't match (i.e. fail "#page-3hi!")
             hash = hash.match(/^#page-(\d+)$/);
-
-
             if (hash) {
                 //A variable to store the page number
                 var hashInteger = parseInt(hash[1]);
@@ -74,17 +66,14 @@ jQuery(function ($) {
                 //if not give feedback to user that there are no results on the current page.
                 if (hashInteger > numberOfPaginations) {
                     $('#noResults').show();
-                    console.log("got in here??");
                 }
                 else {
                     $('#noResults').hide();
                 }
                 // the selectPage function is one of many described in the documentation
                 // we've captured the page number in a regex group: (\d+)
-                console.log(parseInt(hash[1]));
-                $(".paginationHolder").pagination("selectPage", parseInt(hash[1]));
+                $(".pagination").pagination("selectPage", parseInt(hash[1]));
             }
-
         }
         $(window).bind("popstate", checkFragment);
 
@@ -95,7 +84,6 @@ jQuery(function ($) {
     http://stackoverflow.com/questions/14031369/how-to-implement-search-function-using-javascript-or-jquery
      */
     $("#searchFilter").on("keyup", function () {
-        console.log("got in search function");
         var g = $(this).val().toLowerCase();
         //iterate through all items containing class student-details, grabbing h3 to grab text of this variable.
         $(".student-details h3").each(function () {

@@ -5,6 +5,21 @@
     display: none;
 }
 
+/*
+.main and .pagination used to center the pagination at bottom of page, used
+http://stackoverflow.com/questions/4767971/how-do-i-center-float-elements
+*/
+.main{
+    float: left;
+    position: relative;
+    left: 50%;
+}
+.pagination{
+    float: left;
+    position: relative;
+    left: -50%;
+}
+
 input[type=text] {
     float:right;
     width: 130px;
