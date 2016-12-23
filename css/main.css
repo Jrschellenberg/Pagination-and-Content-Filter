@@ -1,6 +1,9 @@
 #noResults{
     display: none;
 }
+#noSearchResults{
+    display: none;
+}
 
 input[type=text] {
     float:right;

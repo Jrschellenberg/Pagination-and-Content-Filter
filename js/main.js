@@ -116,8 +116,6 @@ jQuery(function ($) {
         //recall the paginate functionality.
         paginate($pageParts);
     });
-
     //Invoking the pagination functionality when page loads
     paginate($pageParts);
-
 });
