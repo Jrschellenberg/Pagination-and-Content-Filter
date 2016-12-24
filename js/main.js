@@ -6,7 +6,12 @@
  */
 //Making sure all dom elements loaded b4 working on them.
 jQuery(function ($) {
+    var mainDiv = $("<div class='main'><div class='pagination'></div></div>");
+    $(".page").append(mainDiv);
+    var searchBar = $('<input style ="display:none;"id="searchFilter" type="text" name="search" placeholder="Type Here to Search..">');
+    $(".page-header").append(searchBar);
     var $pageParts = $(".student-item");
+    $("#searchFilter").css({"display" : "block"});
     /*
     Function is used to set up the pagination plugin, hooking it all up together
     pageParts: the jquery object containing all of the items we wish to paginate.
@@ -18,10 +23,14 @@ jQuery(function ($) {
         var numPages = pageParts.length;
         if(pageParts.length == 0){
             $('#noSearchResults').show();
-            console.log("got in here??");
+            $(".main").hide();
+        }
+        else if(pageParts.length <= itemsPerPage){
+            $(".main").hide();
         }
         else {
             $('#noSearchResults').hide();
+            $(".main").show();
         }
         //Hiding rest of items except first 10.
         pageParts.slice(itemsPerPage).hide();
@@ -42,9 +51,9 @@ jQuery(function ($) {
                 pageParts.hide().slice(start, end).show();
             }
         });
-
         /*
-         This function Adds functionality to allow the traversing of the pagnination using the browsers forward/back functionality
+         This function Adds functionality to allow the traversing of the pagnination using the browsers forward/back
+         functionality.
          Code was Implemented using
          https://github.com/bilalakil/bin/blob/master/simplepagination/page-fragment/index.html
          */
@@ -76,32 +85,31 @@ jQuery(function ($) {
             }
         }
         $(window).bind("popstate", checkFragment);
-
     }
-
     /*Search Functionality.
-    Search functionality implemented using example grabbed from
+    Search functionality implemented modifying example grabbed from
     http://stackoverflow.com/questions/14031369/how-to-implement-search-function-using-javascript-or-jquery
      */
     $("#searchFilter").on("keyup", function () {
         var g = $(this).val().toLowerCase();
         //iterate through all items containing class student-details, grabbing h3 to grab text of this variable.
-        $(".student-details h3").each(function () {
-            var s = $(this).text().toLowerCase();
-            //if the search finds a matching string entered, then
-            if (s.indexOf(g) != -1) {
+        $(".student-details").each(function () {
+            var nameSearched = $(this).children("h3").text().toLowerCase();
+            var emailSearched = $(this).children("span").text().toLowerCase();
+            //if the search finds a matching name or email matching the string entered, then
+            if (nameSearched.indexOf(g) != -1 || emailSearched.indexOf(g) != -1) {
                 //Show the item and add a class of searchSelected on its parents parent, ie the list item
-                $(this).parent().parent().show().addClass('searchSelected');
+                $(this).parent().show().addClass('searchSelected');
             }
             else {
                 //hide the item and remove the class if it exists of the list item.
-                $(this).parent().parent().hide().removeClass('searchSelected');
+                $(this).parent().hide().removeClass('searchSelected');
             }
-
         });
+
         //Reset variable now using only elements containing only class of searchSelected
         $pageParts = $(".searchSelected");
-        //recall the paginate functionality.
+        //recalling the paginate functionality to re paginate the page based on search results.
         paginate($pageParts);
     });
     //Invoking the pagination functionality when page loads

@@ -1,7 +1,15 @@
+/*
+Setting the noResults, searchFilter, and noSearchResults to have
+ no display to allow JavaScript to make them seen later.
+*/
+
 #noResults{
     display: none;
 }
 #noSearchResults{
+    display: none;
+}
+#searchFilter{
     display: none;
 }
 
@@ -21,7 +29,7 @@ http://stackoverflow.com/questions/4767971/how-do-i-center-float-elements
 }
 
 input[type=text] {
-    float:right;
+    float: right;
     width: 130px;
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
